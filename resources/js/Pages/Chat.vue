@@ -84,6 +84,7 @@
                                         class="flex-1 px-4 py-2 text-sm focus:outline-none "
                                     />
                                     <button
+                                        :disabled="blockBtn"
                                         class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2"
                                     >
                                         Enviar
@@ -112,7 +113,8 @@ export default {
             users: [],
             messages: [],
             userActive: {},
-            message: ""
+            message: "",
+            blockBtn: false
         };
     },
     methods: {
@@ -146,6 +148,7 @@ export default {
         },
         sendMessage: async function() {
             if (this.message) {
+                this.blockBtn = true;
                 await axios
                     .post(`api/messages/store`, {
                         user_id: this.userActive.id,
@@ -154,6 +157,7 @@ export default {
                     .then(r => {
                         this.messages.push(r.data.message);
                         this.message = "";
+                        this.blockBtn = false;
                     });
                 this.scrollToBottom();
             }

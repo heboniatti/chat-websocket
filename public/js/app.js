@@ -3611,6 +3611,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -3623,7 +3624,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       users: [],
       messages: [],
       userActive: {},
-      message: ""
+      message: "",
+      blockBtn: false
     };
   },
   methods: {
@@ -3688,11 +3690,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (!this.message) {
-                  _context2.next = 4;
+                  _context2.next = 5;
                   break;
                 }
 
-                _context2.next = 3;
+                this.blockBtn = true;
+                _context2.next = 4;
                 return axios.post("api/messages/store", {
                   user_id: this.userActive.id,
                   message: this.message
@@ -3700,12 +3703,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this2.messages.push(r.data.message);
 
                   _this2.message = "";
+                  _this2.blockBtn = false;
                 });
 
-              case 3:
+              case 4:
                 this.scrollToBottom();
 
-              case 4:
+              case 5:
               case "end":
                 return _context2.stop();
             }
@@ -34565,7 +34569,8 @@ var render = function() {
                                     "button",
                                     {
                                       staticClass:
-                                        "bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2"
+                                        "bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2",
+                                      attrs: { disabled: _vm.blockBtn }
                                     },
                                     [
                                       _vm._v(
